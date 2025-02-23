@@ -1,0 +1,36 @@
+// Dimensions
+outer_length = 270;   // Outer length in mm
+outer_width = 220;    // Outer width in mm
+outer_height = 50;    // Outer height in mm
+
+wall_thickness = 3;   // Wall thickness in mm
+
+// Inner dimensions for hollowing out
+inner_length = outer_length - 2 * wall_thickness;
+inner_width = outer_width - 2 * wall_thickness;
+inner_height = outer_height - wall_thickness;
+
+// Box Body (Outer Shell)
+difference() {
+    // Outer box
+    cube([outer_length, outer_width, outer_height]);
+    
+    // Inner hollow part
+    translate([wall_thickness, wall_thickness, wall_thickness]) 
+        cube([inner_length, inner_width, inner_height]);
+}
+
+// Lid (Simple Snap-fit)
+lid_offset = 0.5;   // Small offset for snap-fit clearance
+lid_height = 6;     // Lid height
+
+// Lid Box
+translate([0, 0, outer_height])
+difference() {
+    // Outer lid
+    cube([outer_length, outer_width, lid_height]);
+    
+    // Hollow inner part of the lid
+    translate([wall_thickness, wall_thickness, wall_thickness])
+        cube([inner_length, inner_width, lid_height - lid_offset]);
+}
